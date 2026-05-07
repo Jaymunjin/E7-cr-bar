@@ -2,15 +2,11 @@
 // CONFIGURATION
 // =========================
 
+// OpenCV readiness flag
 let cvReady = false;
 cv['onRuntimeInitialized'] = () => {
   cvReady = true;
 };
-
-if (!cvReady) {
-  output.textContent = "OpenCV not ready yet";
-  return;
-}
 
 // Relative offsets from hourglass bottom (measured from your screenshots)
 const CALIBRATION = {
@@ -27,6 +23,32 @@ const CALIBRATION = {
 
 const dropzone = document.getElementById('dropzone');
 const output = document.getElementById('output');
+
+dropzone.addEventListener('dragover', e => {
+  e.preventDefault();
+  dropzone.style.background = '#f0f0f0';
+});
+
+dropzone.addEventListener('dragleave', e => {
+  e.preventDefault();
+  dropzone.style.background = '';
+});
+
+dropzone.addEventListener('drop', e => {
+  e.preventDefault();
+
+  if (!cvReady) {
+    output.textContent = "OpenCV not ready yet";
+    return;
+  }
+
+  dropzone.style.background = '';
+  const file = e.dataTransfer.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => processImage(ev.target.result);
+  reader.readAsDataURL(file);
+});
 
 dropzone.addEventListener('dragover', e => {
   e.preventDefault();

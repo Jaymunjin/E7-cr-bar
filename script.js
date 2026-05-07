@@ -2,6 +2,11 @@
 // CONFIGURATION
 // =========================
 
+let cvReady = false;
+cv['onRuntimeInitialized'] = () => {
+  cvReady = true;
+};
+
 // Relative offsets from hourglass bottom (measured from your screenshots)
 const CALIBRATION = {
   relY0: 12,      // 0% CR is 12px below hourglass bottom
@@ -30,6 +35,10 @@ dropzone.addEventListener('dragleave', e => {
 
 dropzone.addEventListener('drop', e => {
   e.preventDefault();
+  if (!cvReady) {
+    output.textContent = "OpenCV not ready yet";
+    return;
+  }
   dropzone.style.background = '';
   const file = e.dataTransfer.files[0];
   if (!file) return;

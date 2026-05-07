@@ -7,6 +7,11 @@ cv['onRuntimeInitialized'] = () => {
   cvReady = true;
 };
 
+if (!cvReady) {
+  output.textContent = "OpenCV not ready yet";
+  return;
+}
+
 // Relative offsets from hourglass bottom (measured from your screenshots)
 const CALIBRATION = {
   relY0: 12,      // 0% CR is 12px below hourglass bottom

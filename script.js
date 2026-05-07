@@ -29,11 +29,6 @@ dropzone.addEventListener('dragover', e => {
   dropzone.style.background = '#f0f0f0';
 });
 
-dropzone.addEventListener('dragleave', e => {
-  e.preventDefault();
-  dropzone.style.background = '';
-});
-
 dropzone.addEventListener('drop', e => {
   e.preventDefault();
 
